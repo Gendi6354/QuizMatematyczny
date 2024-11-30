@@ -19,18 +19,18 @@ namespace QuizMatematyczny
             {
                 return int.Parse(Console.ReadLine());
             }
-            catch
-            {
-                
-                return PobierzLiczbeRund();
-            }
-
-
-
+            catch { return PobierzLiczbeRund(); }
         }
         private void pytanieNowaGra()
         {
-            Console.WriteLine("Czy chcesz grac dalej: Tak/Nie ");
+            Console.Write("Czy chcesz grac dalej ");
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.Write("Tak");
+            Console.ResetColor();
+            Console.Write("/");
+            Console.ForegroundColor= ConsoleColor.Red;
+            Console.WriteLine("Nie");
+            Console.ResetColor();
             string odp = Console.ReadLine();
             if (odp == "Tak")
             {
@@ -46,22 +46,24 @@ namespace QuizMatematyczny
                 }
 
             }
-
-
         }
-        private void sprawdzOdp(string odp,int prawOdp,int punkty)
+        private void sprawdzOdp(string odp,int prawOdp,ref int punkty)
         {
             if (int.Parse(odp) == prawOdp)
             {
+                Console.ForegroundColor = ConsoleColor.Green;
                 Console.WriteLine("Brawo prawidlowa odpowiedz");
+                Console.ResetColor();
                 punkty++;
             }
             else
             {
+                Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine("Niestety to zla odpowiedz");
+                Console.ResetColor();
             }
         }
-        private void Dzialanie(char znak,int x , int y,int punkty)
+        private void Dzialanie(char znak,int x , int y,ref int punkty)
         {
             Console.Write($"Podaj wynik dzialania  {x}{znak}{y}: ");
             string odp;
@@ -69,27 +71,33 @@ namespace QuizMatematyczny
             switch (znak.ToString())
             {
                 case "*":
-                    {prawOdp = x *y;break;}
+                    {
+                        prawOdp = x *y; break;
+                    }
                 case "/":
                     {
-                        prawOdp = x / y;
-                        break;
+                        prawOdp = x / y; break;
                     }
                 case "+":
                     {
-                        prawOdp = x + y;
-                        break;
+                        prawOdp = x + y; break;
                     }
                 case"-":
                     {
-                        prawOdp = x - y;
-                        break;
+                        prawOdp = x - y; break;
                     }
             }
-            odp = Console.ReadLine();
-            sprawdzOdp(odp, prawOdp, punkty);
+            try
+            {
+                odp = Console.ReadLine();
+                sprawdzOdp(odp, prawOdp,ref punkty);
+            }
+            catch 
+            {
+                odp = Console.ReadLine();
+                sprawdzOdp(odp, prawOdp,ref punkty);
+            }
         }
-
 
         public void RozpocznijGre(int liczbaRund)
         {
@@ -97,7 +105,6 @@ namespace QuizMatematyczny
             int punkty = 0;
             for (int i = 0; i < liczbaRund; i++)
             {
-                
                 int x = rnd.Next(0, 10);
                 int y = rnd.Next(1, 10);
                 int rodzajDzialania = rnd.Next(0,3);
@@ -106,8 +113,7 @@ namespace QuizMatematyczny
                     case 0:
                         try
                         {
-                            Dzialanie('+', x, y, punkty);
-                            break;
+                            Dzialanie('+', x, y, ref punkty); break;
                         }
                         catch
                         {
@@ -116,9 +122,7 @@ namespace QuizMatematyczny
                     case 1:
                         try
                         {
-                            Dzialanie('-', x, y, punkty);
-                            break;
-                            ;
+                            Dzialanie('-', x, y, ref punkty); break;
                         }
                         catch
                         {
@@ -127,21 +131,16 @@ namespace QuizMatematyczny
                     case 2:
                         try
                         {
-                            Dzialanie('*', x, y, punkty);
-                            break;
+                            Dzialanie('*', x, y, ref punkty); break;
                         }
                         catch
                         {
                           goto case 2;
                         }
-
-                        
                     case 3:
                         try
                         {
-
-                            Dzialanie('/', x, y, punkty);
-                            break;
+                            Dzialanie('/', x, y, ref punkty); break;
                         }
                         catch
                         {
