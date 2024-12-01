@@ -32,18 +32,18 @@ namespace QuizMatematyczny
             Console.WriteLine("Nie");
             Console.ResetColor();
             string odp = Console.ReadLine();
-            if (odp == "Tak")
+            if (odp.ToUpper() == "TAK")
             {
                 RozpocznijGre(PobierzLiczbeRund());
             }
-            else if (odp == "Nie")
+            else if (odp.ToUpper() == "NIE")
             {
                 Console.WriteLine($"Koniec skonczyles z nastepujacymi wynikami ");
-                for (int i = 0; tablicaPunktow.Count > 0; i++)
+                for (int i = 0; i < tablicaPunktow.Count; i++)
                 {
-                    Console.Write($"{tablicaPunktow[i]} punkty na {iloscRund[i]} rundy ");
-                    Console.ReadKey();
+                    Console.WriteLine($"{tablicaPunktow[i]} punkty na {iloscRund[i]} rundy ");
                 }
+                Console.ReadKey();
 
             }
         }
@@ -94,6 +94,7 @@ namespace QuizMatematyczny
             }
             catch 
             {
+                Console.Write($"Podaj wynik dzialania  {x}{znak}{y}: ");
                 odp = Console.ReadLine();
                 sprawdzOdp(odp, prawOdp,ref punkty);
             }
@@ -149,9 +150,10 @@ namespace QuizMatematyczny
                 }
                 
             }
-            Console.WriteLine($"Skonczyles gre z {punkty} punktami");
             tablicaPunktow.Add(punkty);
+            Console.WriteLine($"Skonczyles gre z {punkty} punktami");
             pytanieNowaGra();
         }
     }
 }
+
